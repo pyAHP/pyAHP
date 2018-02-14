@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="pyAHP",
     version="0.1",
-    packages=find_packages()
+    packages=find_packages(),
 
     author="Abhinav Mishra",
     description="This is an Example Package",
