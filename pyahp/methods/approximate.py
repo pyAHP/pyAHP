@@ -1,6 +1,13 @@
 from pyahp.methods import Method
 
+import numpy as np
+
 
 class ApproximateMethod(Method):
     def estimate(self, preference_matrix):
-        pass
+        super()._check_matrix(preference_matrix)
+
+        row_sums = np.sum(preference_matrix, axis=1)
+        total_sum = np.sum(row_sums)
+
+        return np.array([(row_sum/total_sum) for row_sum in row_sums])
