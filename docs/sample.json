@@ -1,0 +1,39 @@
+{
+  "method": "approximate",
+  "criteria": ["critA", "critB", "critC"],
+  "subCriteria": {
+    "critA": ["subCritA", "subCritB"]
+  },
+  "alternatives": ["altA", "altB", "altC"],
+  "preferenceMatrices": {
+    "criteria": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "subCriteria:critA": [
+      [1, 1],
+      [1, 1]
+    ],
+    "alternatives:subCritA": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "alternatives:subCritB": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "alternatives:critB": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "alternatives:critC": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ]
+  }
+}
