@@ -1,6 +1,6 @@
-from pyahp.methods import Method
-
 import numpy as np
+
+from pyahp.methods import Method
 
 
 class GeometricMethod(Method):
