@@ -1,4 +1,5 @@
 {
+  "name": "Sample Model",
   "method": "approximate",
   "criteria": ["critA", "critB", "critC"],
   "subCriteria": {

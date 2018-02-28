@@ -1,4 +1,5 @@
 {
+  "name": "Television Model",
   "method": "eigenvalue",
   "criteria": ["cost", "efficiency", "size", "resolution", "rating"],
   "subCriteria": {},
