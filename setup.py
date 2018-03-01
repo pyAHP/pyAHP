@@ -6,6 +6,7 @@ setup(
     packages=find_packages(),
 
     author='Abhinav Mishra',
+    author_email='mishrabhinav96@gmail.com',
     description='This is an Example Package',
     license='MIT',
     url='https://github.com/pyAHP/pyAHP',
