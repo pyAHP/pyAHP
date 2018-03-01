@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyAHP',
-    version='0.1',
+    version='0.1.2',
     packages=find_packages(),
     install_requires=[
         'numpy>=1.14.0',
@@ -14,4 +14,5 @@ setup(
     license='MIT',
     url='https://github.com/pyAHP/pyAHP',
     keywords='ahp analytic hierarchy process',
+    python_requires='>=3'
 )
