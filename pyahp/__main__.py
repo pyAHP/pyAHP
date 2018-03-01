@@ -1,11 +1,22 @@
+# -*- coding: utf-8 -*-
+"""pyahp.__main__
+
+This module contains the common functions and methods to provide a CLI for the pyAHP package.
+"""
+
 import argparse
 import json
 
 from pyahp import parse
-from pyahp.errors import AHPConfigError
+from pyahp.errors import AHPModelError
 
 
 def parse_args():
+    """Parse command line arguments.
+
+    Returns:
+         Command line arguments in form of a Namespace
+    """
     parser = argparse.ArgumentParser(description='Solver for Analytic Hierarchy Process models.')
     parser.add_argument('-f', '--file',
                         metavar='FILE',
@@ -18,30 +29,41 @@ def parse_args():
 
 
 def print_priorities(alternatives, priorities):
-    for i in range(len(alternatives)):
-        print('\t{}: {}'.format(alternatives[i], priorities[i]))
+    """Pretty print the alternatives and the priorities.
+
+    Args:
+        alternatives (list): List of alternatives.
+        priorities (list): List of priorities corresponding to the alternatives.
+    """
+    print('\tResults:')
+    for idx, alternative in enumerate(alternatives):
+        print('\t\t{}: {}'.format(alternative, priorities[idx]))
+
+
+def main():
+    """Main function of the script.
+
+    This function parses the command line arguments, validates and creates the AHP models
+    and prints the summary of all the AHP models.
+    """
+    args = parse_args()
+
+    models = {file: json.load(open(file)) for file in args.file}
+
+    for name, model in models.items():
+        print('[+] {}'.format(model.get('name', name)))
+        try:
+            ahp_model = parse(model)
+            print('\tMethod: {}'.format(model['method']))
+
+            print_priorities(model['alternatives'], ahp_model.get_priorities())
+
+        except AHPModelError as err:
+            print('\t[-] ERROR:AHPConfigError {}'.format(err))
+
+        except Exception as err:
+            print('\t[-] ERROR:{} {}'.format(err.__class__.__name__, err))
 
 
 if __name__ == '__main__':
-    args = parse_args()
-
-    models = {}
-
-    for file in args.file:
-        models[file] = json.load(open(file))
-
-    for name, model in models.items():
-        try:
-            print('[+] {}'.format(model.get('name', name)))
-            ahp_model = parse(model)
-
-            priorities, _ = ahp_model.get_priorities()
-            alternatives = model['alternatives']
-
-            print_priorities(alternatives, priorities)
-
-        except AHPConfigError as e:
-            print('\t[-] ERROR:AHPConfigError {}'.format(e))
-        except Exception as e:
-            print('\t[-] ERROR:{} {}'.format(e.__class__.__name__, e))
-
+    main()

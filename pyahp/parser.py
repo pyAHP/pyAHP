@@ -1,8 +1,14 @@
-import numpy as np
-from queue import Queue
+# -*- coding: utf-8 -*-
+"""pyahp.parser
 
-from pyahp.errors import AHPConfigError
-from pyahp.hierarchy import AHPRoot
+This module contains the functions required to perform AHP Model validation.
+"""
+
+from queue import Queue
+import numpy as np
+
+from pyahp.errors import AHPModelError
+from pyahp.hierarchy import AHPModel
 from pyahp.methods import ApproximateMethod, EigenvalueMethod, GeometricMethod
 
 
@@ -12,25 +18,28 @@ def _type(val):
 
 def _check_ahp_list(name, value):
     if not isinstance(value, list):
-        raise AHPConfigError('Expecting {} to be a list got {}'.format(name, _type(value)))
+        raise AHPModelError('Expecting {} to be a list got {}'.format(name, _type(value)))
 
-    for v in value:
-        if not isinstance(v, str):
-            raise AHPConfigError('Expecting {} list to have string got {}'.format(name, _type(v)))
+    if not value:
+        raise AHPModelError('{} list empty'.format(name))
+
+    for elem in value:
+        if not isinstance(elem, str):
+            raise AHPModelError('Expecting {} list to have string got {}'.format(name, _type(elem)))
 
     if len(value) != len(set(value)):
-        raise AHPConfigError('{} list contains duplicates'.format(name))
+        raise AHPModelError('{} list contains duplicates'.format(name))
 
 
 def _check_ahp_preference_matrix(name, p_m, kind, length):
     if p_m is None:
-        raise AHPConfigError('Missing {} preference matrix for {}'.format(kind, name))
+        raise AHPModelError('Missing {} preference matrix for {}'.format(kind, name))
 
     p_m = np.array(p_m)
 
     width, height = p_m.shape
     if width != height or width != length:
-        raise AHPConfigError(
+        raise AHPModelError(
             'Expecting {0}:{1} preference matrix to be {2}x{2} got {3}x{4}'.format(kind,
                                                                                    name,
                                                                                    length,
@@ -39,23 +48,32 @@ def _check_ahp_preference_matrix(name, p_m, kind, length):
         )
 
 
-def validate_config(config):
-    if not isinstance(config, dict):
-        raise AHPConfigError('Expecting a config dictionary got {}'.format(_type(config)))
+def validate_model(model):
+    """Validate the passed AHP model.
 
-    method = config['method']
+    Args:
+        model (dict): The Analytic Hierarchy Process model.
+
+    Raises:
+        AHPModelError when the model validation fails.
+    """
+
+    if not isinstance(model, dict):
+        raise AHPModelError('Expecting a config dictionary got {}'.format(_type(model)))
+
+    method = model['method']
     if not isinstance(method, str):
-        raise AHPConfigError('Expecting method to be string got {}'.format(_type(method)))
+        raise AHPModelError('Expecting method to be string got {}'.format(_type(method)))
 
     if method not in ['approximate', 'eigenvalue', 'geometric']:
-        raise AHPConfigError('Expecting method to be approximate, eigenvalue or geometric')
+        raise AHPModelError('Expecting method to be approximate, eigenvalue or geometric')
 
-    _check_ahp_list('criteria', config['criteria'])
-    _check_ahp_list('alternatives', config['alternatives'])
+    _check_ahp_list('criteria', model['criteria'])
+    _check_ahp_list('alternatives', model['alternatives'])
 
-    n_alternatives = len(config['alternatives'])
-    preference_matrices = config['preferenceMatrices']
-    criteria = config['criteria']
+    n_alternatives = len(model['alternatives'])
+    preference_matrices = model['preferenceMatrices']
+    criteria = model['criteria']
     criteria_queue = Queue()
 
     criteria_p_m = preference_matrices.get('criteria')
@@ -67,7 +85,7 @@ def validate_config(config):
     for criterion in criteria:
         criteria_queue.put(criterion)
 
-    sub_criteria_map = config.get('subCriteria')
+    sub_criteria_map = model.get('subCriteria')
 
     while not criteria_queue.empty():
         criterion = criteria_queue.get()
@@ -92,16 +110,23 @@ def validate_config(config):
                                          length=n_alternatives)
 
 
-def parse(config):
-    validate_config(config)
+def parse(model):
+    """Parse the passed AHP model.
 
-    method = config['method']
+    Args:
+        model (dict): The Analytic Hierarchy Process model.
+
+    Returns:
+        AHPModel with the specified solver.
+    """
+    validate_model(model)
+
+    method = model['method']
+    solver = EigenvalueMethod
 
     if method == 'approximate':
         solver = ApproximateMethod
-    elif method == 'eigenvalue':
-        solver = EigenvalueMethod
     elif method == 'geometric':
         solver = GeometricMethod
 
-    return AHPRoot(config, solver)
+    return AHPModel(model, solver)

@@ -1,9 +1,28 @@
+# -*- coding: utf-8 -*-
+"""pyahp.methods.method
+
+This module contains the abstract Method class used as a base class for other methods.
+"""
+
 from abc import ABC, abstractmethod
 
 
 class Method(ABC):
+    """Method
+
+    Abstract class to provide a common interface for various methods.
+    """
+
     @abstractmethod
     def estimate(self, preference_matrix):
+        """Estimate the priority from the provided preference matrix
+
+        Args:
+            preference_matrix (np.array): A two (nxn) dimensional reciprocal array.
+
+        Returns:
+            nx1 np.array of priorities
+        """
         pass
 
     @staticmethod

@@ -1,33 +1,40 @@
+# -*- coding: utf-8 -*-
+"""pyahp.methods.eigenvalue
+
+This module contains the class implementing the eigenvalue priority estimation method.
+"""
+
 import numpy as np
 from scipy.sparse.linalg import eigs
 
 from pyahp.methods import Method
 
 
-random_indices = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51]
+RANDOM_INDICES = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51]
 
 
 class EigenvalueMethod(Method):
+    """Eigenvalue based priority estimation method
+    """
 
     @staticmethod
     def _evaluate_consistency(matrix):
-        n, _ = matrix.shape
+        width = matrix.shape[0]
 
-        if n > len(random_indices):
+        if width > len(RANDOM_INDICES):
             return 0
-        else:
-            return random_indices[n - 1]
+
+        return RANDOM_INDICES[width - 1]
 
     def estimate(self, preference_matrix):
         super()._check_matrix(preference_matrix)
-        n = preference_matrix.shape[0]
+        width = preference_matrix.shape[0]
 
-        v = np.ones(n)
-        _, vectors = eigs(preference_matrix, k=(n-2), sigma=n, which='LM', v0=v)
+        _, vectors = eigs(preference_matrix, k=(width-2), sigma=width, which='LM', v0=np.ones(width))
 
-        real_vector = np.real([v for v in np.transpose(vectors) if not np.all(np.imag(v))][:1])
+        real_vector = np.real([vec for vec in np.transpose(vectors) if not np.all(np.imag(vec))][:1])
         sum_vector = np.sum(real_vector)
 
-        # TODO: Check result consistency
+        self._evaluate_consistency(preference_matrix)
 
         return np.around([v / sum_vector for v in real_vector], decimals=3)[0]
