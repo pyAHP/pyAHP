@@ -1,9 +1,9 @@
-from setuptools import setup, find_packages
+from distutils.core import setup
 
 setup(
     name='pyAHP',
     version='0.1',
-    packages=find_packages(),
+    packages=['pyAHP'],
 
     author='Abhinav Mishra',
     author_email='mishrabhinav96@gmail.com',
