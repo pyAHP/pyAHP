@@ -12,14 +12,13 @@ def normalize_priorities(criteria, crit_pr):
 
     This function performs a Global Prioritization at the current node.
 
+
     Args:
         criteria (list(AHPCriterion)): List of all criteria.
-        crit_pr (list(float)): The priorities of all criteria.
+        crit_pr (list(float) | 1D-array): The priorities of all criteria.
 
     Returns:
-       Normalized priorities
+       Normalized priorities (1D-array): crit_pr * matrix of priorities of criteria
     """
-    crit_attr_pr = [criterion.get_priorities() for criterion in criteria]
-    attr_global_pr = [list(crit_pr[i]* crit_attr_pr[i]) for i in range(len(crit_pr))]
-
-    return np.sum(np.transpose(attr_global_pr), axis=1)
+    crit_attr_pr = np.array([criterion.get_priorities() for criterion in criteria])
+    return np.dot(crit_pr, crit_attr_pr)
