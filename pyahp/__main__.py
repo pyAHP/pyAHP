@@ -36,8 +36,10 @@ def print_priorities(alternatives, priorities):
         priorities (list): List of priorities corresponding to the alternatives.
     """
     print('\tResults:')
-    for idx, alternative in enumerate(alternatives):
-        print('\t\t{}: {}'.format(alternative, priorities[idx]))
+    for priority, alternative in zip(priorities, alternatives):
+        print('\t\t{}: {}'.format(alternative, priority))
+    idx = np.argmax(priorities)
+    print('\tRecommanded is [%d]%s'%(idx, alternatives[idx]))
 
 
 def main():
