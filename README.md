@@ -1,6 +1,9 @@
 # Analytic Hierarchy Process Solver in Python
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
+## Theory
+Saaty's AHP model for making decision
+
 ## Example
 
 ### Scripts
