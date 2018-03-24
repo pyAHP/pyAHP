@@ -15,5 +15,5 @@ class GeometricMethod(Method):
 
     def estimate(self, preference_matrix):
         super()._check_matrix(preference_matrix)
-        coln = preference_matrix.shape[1]
-        return np.prod(preference_matrix, axis=1) ** (1/coln)
+        height = preference_matrix.shape[1]
+        return np.prod(preference_matrix, axis=1) ** (1/height)
