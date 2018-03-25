@@ -3,6 +3,7 @@
 
 ## Theory
 Saaty's AHP model for making decision
+![AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)
 
 ## Example
 
