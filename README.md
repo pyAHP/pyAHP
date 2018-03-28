@@ -5,10 +5,17 @@
 Saaty's AHP model for making decision
 [AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)
 
+## Download
+
+        pip install pyahp
+
 ## Example
 
-### Scripts
+There are tow examples in doc folder.
 
+### Example of television.json
+
+        from pyahp import *
 	model = json.load(open(pathto/television.json))  # or define it as a dict directly
 	ahp_model = parse(model)   # dict -> AHP Model Class
 	ahp_model.get_priorities() # get priorities
