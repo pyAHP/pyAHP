@@ -41,6 +41,7 @@ ahp_model.get_priorities() # get priorities
 			Sony: 0.106
 			Panasonic: 0.27
 			Toshiba: 0.38
+		Recommended is Toshiba
 
 ## Maintainer
 - Abhinav Mishra [@mishrabhinav](https://github.com/mishrabhinav)
