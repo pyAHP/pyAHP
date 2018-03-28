@@ -39,7 +39,7 @@ def print_priorities(alternatives, priorities):
     for priority, alternative in zip(priorities, alternatives):
         print('\t\t{}: {}'.format(alternative, priority))
     idx = np.argmax(priorities)
-    print('\tRecommanded is [%d]%s'%(idx, alternatives[idx]))
+    print('\tRecommended is [%d]%s'%(idx, alternatives[idx]))
 
 
 def main():
