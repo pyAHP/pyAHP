@@ -12,11 +12,13 @@ also see [wiki of AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)
 
         pip install pyahp
 
+
 ## Example
 
 There are tow examples in doc folder.
 
 ### Example of television.json
+
 
         from pyahp import *
 	model = json.load(open(pathto/television.json))  # or define it as a dict directly
