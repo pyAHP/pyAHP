@@ -10,8 +10,9 @@ also see [wiki of AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)
 
 ## Download
 
-        pip install pyahp
-
+```python
+pip install pyahp
+```
 
 ## Example
 
@@ -19,11 +20,12 @@ There are tow examples in doc folder.
 
 ### Example of television.json
 
-
-        from pyahp import *
-	model = json.load(open(pathto/television.json))  # or define it as a dict directly
-	ahp_model = parse(model)   # dict -> AHP Model Class
-	ahp_model.get_priorities() # get priorities
+```python
+from pyahp import *
+model = json.load(open(pathto/television.json))  # or define it as a dict directly
+ahp_model = parse(model)   # dict -> AHP Model Class
+ahp_model.get_priorities() # get priorities
+```
 
 
 ### Command Line in Shell
