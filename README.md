@@ -21,7 +21,9 @@ There are tow examples in doc folder.
 ### Example of television.json
 
 ```python
+import json
 from pyahp import *
+
 model = json.load(open(pathto/television.json))  # or define it as a dict directly
 ahp_model = parse(model)   # dict -> AHP Model Class
 ahp_model.get_priorities() # get priorities
