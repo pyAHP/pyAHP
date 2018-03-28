@@ -3,7 +3,10 @@
 
 ## Theory
 Saaty's AHP model for making decision
-[AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)
+[AHP](https://ac.els-cdn.com/0270025587904738/1-s2.0-0270025587904738-main.pdf?_tid=dd2ff8f7-5309-49f1-86de-ba06bfb64173&acdnat=1522246227_0c33ef0d5df5ca8cd4b16ecf64633234)
+
+also see [wiki of AHP](https://en.wikipedia.org/wiki/Analytic_hierarchy_process) and
+[car example](https://en.wikipedia.org/wiki/Analytic_hierarchy_process_–_car_example)
 
 ## Download
 
