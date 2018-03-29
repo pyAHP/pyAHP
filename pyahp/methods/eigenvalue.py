@@ -37,4 +37,4 @@ class EigenvalueMethod(Method):
 
         self._evaluate_consistency(preference_matrix)
 
-        return np.around([v / sum_vector for v in real_vector], decimals=3)[0]
+        return np.around(real_vector, decimals=3)[0] / sum_vector
