@@ -49,4 +49,6 @@ class AHPCriterion:
         if self.leaf:
             return sub_crit_pr
 
-        return normalize_priorities(self.sub_criteria, sub_crit_pr)
+        criteria_pr = [criterion.get_priorities() for criterion in self.sub_criteria]
+
+        return normalize_priorities(criteria_pr, sub_crit_pr)
