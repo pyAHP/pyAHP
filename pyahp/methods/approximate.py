@@ -19,4 +19,4 @@ class ApproximateMethod(Method):
         row_sums = np.sum(preference_matrix, axis=1)
         total_sum = np.sum(row_sums)
 
-        return np.array([(row_sum/total_sum) for row_sum in row_sums])
+        return row_sums / total_sum
