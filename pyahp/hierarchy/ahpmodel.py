@@ -39,7 +39,8 @@ class AHPModel:
         crit_pm = np.array(self.preference_matrices['criteria'])
         crit_pr = self.solver.estimate(crit_pm)
 
-        priorities = normalize_priorities(self.criteria, crit_pr)
+        crit_attr_pr = [criterion.get_priorities() for criterion in self.criteria]
+        priorities = normalize_priorities(crit_attr_pr, crit_pr)
 
         if round_results:
             return np.around(priorities, decimals=decimals)
