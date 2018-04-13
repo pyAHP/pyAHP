@@ -9,7 +9,6 @@ from scipy.sparse.linalg import eigs
 
 from pyahp.methods import Method
 
-
 RANDOM_INDICES = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51]
 
 
