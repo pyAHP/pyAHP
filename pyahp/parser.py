@@ -9,7 +9,7 @@ import numpy as np
 
 from pyahp.errors import AHPModelError
 from pyahp.hierarchy import AHPModel
-from pyahp.methods import ApproximateMethod, EigenvalueMethod, GeometricMethod
+from pyahp.methods import ApproximateMethod, EigenvalueMethod, GeometricMethod, PowerMethod
 
 
 def _type(val):
@@ -47,7 +47,7 @@ def _check_ahp_preference_matrix(name, p_m, kind, length):
                                                                                    height)
         )
 
-
+methods = ('approximate', 'eigenvalue', 'geometric', 'power')
 def validate_model(model):
     """Validate the passed AHP model.
 
@@ -65,8 +65,8 @@ def validate_model(model):
     if not isinstance(method, str):
         raise AHPModelError('Expecting method to be string got {}'.format(_type(method)))
 
-    if method not in ['approximate', 'eigenvalue', 'geometric']:
-        raise AHPModelError('Expecting method to be approximate, eigenvalue or geometric')
+    if method not in methods:
+        raise AHPModelError('Expecting method to be one of %s'%(', '.join(methods)))
 
     _check_ahp_list('criteria', model['criteria'])
     _check_ahp_list('alternatives', model['alternatives'])
@@ -121,12 +121,7 @@ def parse(model):
     """
     validate_model(model)
 
-    method = model['method']
-    solver = EigenvalueMethod
-
-    if method == 'approximate':
-        solver = ApproximateMethod
-    elif method == 'geometric':
-        solver = GeometricMethod
+    method_name = model['method'].capitalize() + 'Method'
+    solver = globals()[method_name]
 
     return AHPModel(model, solver)

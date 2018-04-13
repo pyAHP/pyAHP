@@ -19,6 +19,5 @@ def normalize_priorities(criteria_pr, global_pr):
     Returns:
        Normalized priorities
     """
-    attr_global_pr = [list(global_pr[i] * criteria_pr[i]) for i in range(len(global_pr))]
-
-    return np.sum(np.transpose(attr_global_pr), axis=1)
+    
+    return np.dot(global_pr, criteria_pr)
