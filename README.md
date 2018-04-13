@@ -2,9 +2,9 @@
 The analytic hierarchy process (AHP) is a structured technique for organizing
 and analyzing complex decisions, based on mathematics and psychology. It was
 developed by Thomas L. Saaty in the 1970s and has been extensively studied and
-refined since then.[1](https://www.sciencedirect.com/science/article/abs/pii/037722179090057I)
+refined since then.[[1](https://www.sciencedirect.com/science/article/abs/pii/037722179090057I)]
 
-The Wikipedia [2](https://en.wikipedia.org/wiki/Analytic_hierarchy_process) page
+The Wikipedia [[2](https://en.wikipedia.org/wiki/Analytic_hierarchy_process)] page
 on AHP references two full examples of AHP and many more can be found on the
 internet.
 
@@ -20,8 +20,6 @@ pip install pyahp
 ```
 
 ## Getting Started
-
-There are two examples in doc folder.
 
 ### Using as a `python` module
 
