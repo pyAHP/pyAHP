@@ -9,7 +9,7 @@ import numpy as np
 
 from pyahp.errors import AHPModelError
 from pyahp.hierarchy import AHPModel
-from pyahp.methods import ApproximateMethod, EigenvalueMethod, GeometricMethod, PowerMethod
+from pyahp.methods import ApproximateMethod, EigenvalueMethod, GeometricMethod
 
 
 def _type(val):
