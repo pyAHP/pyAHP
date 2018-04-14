@@ -10,12 +10,21 @@ class AHPModelError(Exception):
     pass
 
 
+class AHPMethodUnsupportedError(AHPModelError):
+    def __init__(self, expected, actual):
+        self.expected = expected
+        self.actual = actual
+
+    def __str__(self):
+        return 'Expected method to be one of [{}], got \'{}\''.format(self.expected, self.actual)
+
+
 class AHPFieldEmptyError(AHPModelError):
     def __init__(self, var):
         self.var = var
 
     def __str__(self):
-        return 'Field {} should not be empty'.format(self.var)
+        return 'Field \'{}\' should not be empty'.format(self.var)
 
 
 class AHPTypeMismatchError(AHPModelError):
@@ -27,9 +36,9 @@ class AHPTypeMismatchError(AHPModelError):
 
     def __str__(self):
         if self.list_elements:
-            return 'Expected {} list to have <{}> elements, got <{}>'.format(self.var, self.expected, self.actual)
+            return 'Expected \'{}\' list to have <{}> elements, got <{}>'.format(self.var, self.expected, self.actual)
         else:
-            return 'Expected {} to be of type <{}>, got <{}>'.format(self.var, self.expected, self.actual)
+            return 'Expected \'{}\' to be of type <{}>, got <{}>'.format(self.var, self.expected, self.actual)
 
 
 class AHPContainsDuplicateError(AHPModelError):
@@ -37,7 +46,7 @@ class AHPContainsDuplicateError(AHPModelError):
         self.var = var
 
     def __str__(self):
-        return 'Field {} contains duplicates'.format(self.var)
+        return 'Field \'{}\' contains duplicates'.format(self.var)
 
 
 class AHPNonSquarePreferenceMatrixError(AHPModelError):
@@ -49,9 +58,10 @@ class AHPNonSquarePreferenceMatrixError(AHPModelError):
         self.actual_height = actual_height
 
     def __str__(self):
-        return 'Expecting {0}:{1} preference matrix to be {2}x{2} got {3}x{4}'.format(self.kind, self.name, self.side,
-                                                                                      self.actual_width,
-                                                                                      self.actual_height)
+        return 'Expecting \'{0}:{1}\' preference matrix to be {2}x{2} got {3}x{4}'.format(self.kind, self.name,
+                                                                                          self.side,
+                                                                                          self.actual_width,
+                                                                                          self.actual_height)
 
 
 class AHPMissingPreferenceMatrixError(AHPModelError):
@@ -60,4 +70,4 @@ class AHPMissingPreferenceMatrixError(AHPModelError):
         self.name = name
 
     def __str__(self):
-        return 'Missing {} preference matrix for {}'.format(self.kind, self.name)
+        return 'Missing \'{}\' preference matrix for \'{}\''.format(self.kind, self.name)

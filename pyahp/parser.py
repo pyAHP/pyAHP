@@ -11,7 +11,7 @@ from pyahp.errors import *
 from pyahp.hierarchy import AHPModel
 from pyahp.methods import *
 
-methods = ('approximate', 'eigenvalue', 'geometric', 'power')
+methods = ('approximate', 'eigenvalue', 'geometric')
 
 
 def _type(val):
@@ -57,12 +57,19 @@ def validate_model(model):
     if not isinstance(model, dict):
         raise AHPTypeMismatchError('model', 'dict', _type(model))
 
-    method = model['method']
+    if not model:
+        raise AHPModelError('AHP Model cannot be an empty dictionary or json object')
+
+    try:
+        method = model['method']
+    except KeyError:
+        raise AHPFieldEmptyError('method')
+
     if not isinstance(method, str):
         raise AHPTypeMismatchError('method', 'str', _type(method))
 
     if method not in methods:
-        raise AHPModelError('Expecting method to be one of %s' % (', '.join(methods)))
+        raise AHPMethodUnsupportedError((', '.join(methods)), method)
 
     _check_ahp_list('criteria', model['criteria'])
     _check_ahp_list('alternatives', model['alternatives'])
