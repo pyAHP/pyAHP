@@ -7,9 +7,11 @@ This module contains the functions required to perform AHP Model validation.
 from queue import Queue
 import numpy as np
 
-from pyahp.errors import AHPModelError
+from pyahp.errors import *
 from pyahp.hierarchy import AHPModel
-from pyahp.methods import ApproximateMethod, EigenvalueMethod, GeometricMethod
+from pyahp.methods import *
+
+methods = ('approximate', 'eigenvalue', 'geometric')
 
 
 def _type(val):
@@ -18,36 +20,30 @@ def _type(val):
 
 def _check_ahp_list(name, value):
     if not isinstance(value, list):
-        raise AHPModelError('Expecting {} to be a list got {}'.format(name, _type(value)))
+        raise AHPTypeMismatchError(name, 'list', _type(value))
 
     if not value:
-        raise AHPModelError('{} list empty'.format(name))
+        raise AHPFieldEmptyError(name)
 
     for elem in value:
         if not isinstance(elem, str):
-            raise AHPModelError('Expecting {} list to have string got {}'.format(name, _type(elem)))
+            raise AHPTypeMismatchError(name, 'str', _type(elem), list_elements=True)
 
     if len(value) != len(set(value)):
-        raise AHPModelError('{} list contains duplicates'.format(name))
+        raise AHPContainsDuplicateError(name)
 
 
 def _check_ahp_preference_matrix(name, p_m, kind, length):
     if p_m is None:
-        raise AHPModelError('Missing {} preference matrix for {}'.format(kind, name))
+        raise AHPMissingPreferenceMatrixError(kind, name)
 
     p_m = np.array(p_m)
 
     width, height = p_m.shape
     if width != height or width != length:
-        raise AHPModelError(
-            'Expecting {0}:{1} preference matrix to be {2}x{2} got {3}x{4}'.format(kind,
-                                                                                   name,
-                                                                                   length,
-                                                                                   width,
-                                                                                   height)
-        )
+        raise AHPNonSquarePreferenceMatrixError(kind, name, length, width, height)
 
-methods = ('approximate', 'eigenvalue', 'geometric', 'power')
+
 def validate_model(model):
     """Validate the passed AHP model.
 
@@ -59,14 +55,21 @@ def validate_model(model):
     """
 
     if not isinstance(model, dict):
-        raise AHPModelError('Expecting a config dictionary got {}'.format(_type(model)))
+        raise AHPTypeMismatchError('model', 'dict', _type(model))
 
-    method = model['method']
+    if not model:
+        raise AHPModelError('AHP Model cannot be an empty dictionary or json object')
+
+    try:
+        method = model['method']
+    except KeyError:
+        raise AHPFieldEmptyError('method')
+
     if not isinstance(method, str):
-        raise AHPModelError('Expecting method to be string got {}'.format(_type(method)))
+        raise AHPTypeMismatchError('method', 'str', _type(method))
 
     if method not in methods:
-        raise AHPModelError('Expecting method to be one of %s'%(', '.join(methods)))
+        raise AHPMethodUnsupportedError((', '.join(methods)), method)
 
     _check_ahp_list('criteria', model['criteria'])
     _check_ahp_list('alternatives', model['alternatives'])
@@ -77,10 +80,7 @@ def validate_model(model):
     criteria_queue = Queue()
 
     criteria_p_m = preference_matrices.get('criteria')
-    _check_ahp_preference_matrix(name='criteria',
-                                 p_m=criteria_p_m,
-                                 kind="criteria",
-                                 length=len(criteria))
+    _check_ahp_preference_matrix(name='criteria', p_m=criteria_p_m, kind="criteria", length=len(criteria))
 
     for criterion in criteria:
         criteria_queue.put(criterion)
@@ -95,19 +95,13 @@ def validate_model(model):
             _check_ahp_list('subCriteria:{}'.format(criterion), sub_criteria)
 
             p_m = preference_matrices.get('subCriteria:{}'.format(criterion))
-            _check_ahp_preference_matrix(name=criterion,
-                                         p_m=p_m,
-                                         kind="subCriteria",
-                                         length=len(sub_criteria))
+            _check_ahp_preference_matrix(name=criterion, p_m=p_m, kind="subCriteria", length=len(sub_criteria))
 
             for sub_criterion in sub_criteria:
                 criteria_queue.put(sub_criterion)
         else:
             p_m = preference_matrices.get('alternatives:{}'.format(criterion))
-            _check_ahp_preference_matrix(name=criterion,
-                                         p_m=p_m,
-                                         kind="alternatives",
-                                         length=n_alternatives)
+            _check_ahp_preference_matrix(name=criterion, p_m=p_m, kind="alternatives", length=n_alternatives)
 
 
 def parse(model):
