@@ -204,3 +204,72 @@ def test_model_with_non_square_alternative_pm():
     assert err.value.side == 3
     assert err.value.actual_width == 3
     assert err.value.actual_height == 2
+
+
+def test_model_with_non_string_sub_criteria():
+    model = {
+        'method': 'geometric',
+        'criteria': ['A', 'B'],
+        'subCriteria': {
+            'A': ['A1', 2]
+        },
+        'alternatives': ['C', 'D', 'E'],
+        'preferenceMatrices': {
+            'criteria': [[1, 2], [0.5, 1]],
+            'alternatives:A': [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            'alternatives:B': [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+        }
+    }
+
+    with pytest.raises(AHPTypeMismatchError) as err:
+        parse(model)
+
+    assert err.value.var == 'subCriteria:A'
+    assert err.value.expected == 'str'
+    assert err.value.actual == 'int'
+
+
+def test_model_without_sub_criteria_pm():
+    model = {
+        'method': 'geometric',
+        'criteria': ['A', 'B'],
+        'subCriteria': {
+            'A': ['A1', 'A2']
+        },
+        'alternatives': ['C', 'D', 'E'],
+        'preferenceMatrices': {
+            'criteria': [[1, 2], [0.5, 1]],
+            'alternatives:A1': [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            'alternatives:A2': [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            'alternatives:B': [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+        }
+    }
+
+    with pytest.raises(AHPMissingPreferenceMatrixError) as err:
+        parse(model)
+
+    assert err.value.kind == 'subCriteria'
+    assert err.value.name == 'A'
+
+
+def test_model_without_sub_criteria_alternative_pm():
+    model = {
+        'method': 'geometric',
+        'criteria': ['A', 'B'],
+        'subCriteria': {
+            'A': ['A1', 'A2']
+        },
+        'alternatives': ['C', 'D', 'E'],
+        'preferenceMatrices': {
+            'criteria': [[1, 2], [0.5, 1]],
+            'subCriteria:A': [[1, 1], [1, 1]],
+            'alternatives:A1': [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            'alternatives:B': [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+        }
+    }
+
+    with pytest.raises(AHPMissingPreferenceMatrixError) as err:
+        parse(model)
+
+    assert err.value.kind == 'alternatives'
+    assert err.value.name == 'A2'
