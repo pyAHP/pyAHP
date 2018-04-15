@@ -11,6 +11,7 @@ class AHPModelError(Exception):
 
 
 class AHPMethodUnsupportedError(AHPModelError):
+    """Error for cases when the AHP model uses a method not implemented."""
     def __init__(self, expected, actual):
         self.expected = expected
         self.actual = actual
@@ -20,6 +21,7 @@ class AHPMethodUnsupportedError(AHPModelError):
 
 
 class AHPFieldEmptyError(AHPModelError):
+    """Error for cases when the AHP model has an empty field."""
     def __init__(self, var):
         self.var = var
 
@@ -28,6 +30,7 @@ class AHPFieldEmptyError(AHPModelError):
 
 
 class AHPTypeMismatchError(AHPModelError):
+    """Error for cases when the properties in the AHP model don't match the expected type."""
     def __init__(self, var, expected, actual, list_elements=False):
         self.var = var
         self.expected = expected
@@ -42,6 +45,7 @@ class AHPTypeMismatchError(AHPModelError):
 
 
 class AHPContainsDuplicateError(AHPModelError):
+    """Error for cases when the properties in the AHP model have duplicate entries."""
     def __init__(self, var):
         self.var = var
 
@@ -50,6 +54,7 @@ class AHPContainsDuplicateError(AHPModelError):
 
 
 class AHPNonSquarePreferenceMatrixError(AHPModelError):
+    """Error for cases when the preference matrix in the AHP model are not square matrices."""
     def __init__(self, kind, name, side, actual_width, actual_height):
         self.kind = kind
         self.name = name
@@ -65,6 +70,7 @@ class AHPNonSquarePreferenceMatrixError(AHPModelError):
 
 
 class AHPMissingPreferenceMatrixError(AHPModelError):
+    """Error for cases when a required preference matrix is missing in the AHP model."""
     def __init__(self, kind, name):
         self.kind = kind
         self.name = name

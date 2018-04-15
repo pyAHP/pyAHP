@@ -58,9 +58,6 @@ def main():
 
             print_priorities(model['alternatives'], ahp_model.get_priorities())
 
-        except AHPModelError as err:
-            print('\t[-] ERROR:AHPConfigError {}'.format(err))
-
         except Exception as err:
             print('\t[-] ERROR:{} {}'.format(err.__class__.__name__, err))
 
