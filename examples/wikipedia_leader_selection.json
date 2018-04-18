@@ -1,0 +1,35 @@
+{
+  "name": "Wikipedia Leader Selection",
+  "method": "eigenvalue",
+  "criteria": ["experience", "education", "charisma", "age"],
+  "subCriteria": {},
+  "alternatives": ["Tom", "Dick", "Harry"],
+  "preferenceMatrices": {
+    "criteria": [
+      [1, 4, 3, 7],
+      [0.25, 1, 0.3333, 3],
+      [0.3333, 3, 1, 5],
+      [0.1428, 0.333, 0.2, 1]
+    ],
+    "alternatives:experience": [
+      [1, 0.25, 4],
+      [4, 1, 9],
+      [0.25, 0.1111, 1]
+    ],
+    "alternatives:education": [
+      [1, 3, 0.2],
+      [0.3333, 1, 0.1428],
+      [5, 7, 1]
+    ],
+    "alternatives:charisma": [
+      [1, 5, 9],
+      [0.2, 1, 4],
+      [0.1111, 0.25, 1]
+    ],
+    "alternatives:age": [
+      [1, 0.3333, 5],
+      [3, 1, 9],
+      [0.2, 0.1111, 1]
+    ]
+  }
+}

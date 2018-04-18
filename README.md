@@ -39,7 +39,7 @@ priorities = ahp_model.get_priorities()
 ### Using on the command line
 
 ```
-$> python pathto/pyahp -f pathto/television.json
+$> python -m pyahp -f examples/television.json
     [+] Television Model
 	    Method: eigenvalue
 	    Results:
