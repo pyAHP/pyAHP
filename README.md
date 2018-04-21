@@ -30,8 +30,8 @@ from pyahp import parse
 with open('model.json') as json_model:
     # model can also be a python dictionary
     model = json.load(json_model)
-    
-ahp_model = parse(model) 
+
+ahp_model = parse(model)
 priorities = ahp_model.get_priorities()
 ```
 
@@ -49,6 +49,82 @@ $> python -m pyahp -f examples/television.json
 		    Toshiba: 0.38
 	    Recommended is Toshiba
 ```
+
+## Model Schema
+The models supplied to the library are in JSON format. The model has to follow
+a specific schema and a number of errors are raised in case the schema
+validation  fails. A very simple model with three criteria and one criteria
+with two subcriteria and three alternatives is as follows:
+
+```javascript
+{
+  "name": "Sample Model",
+  "method": "approximate",
+  "criteria": ["critA", "critB", "critC"],
+  "subCriteria": {
+    "critA": ["subCritA", "subCritB"]
+  },
+  "alternatives": ["altA", "altB", "altC"],
+  "preferenceMatrices": {
+    "criteria": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "subCriteria:critA": [
+      [1, 1],
+      [1, 1]
+    ],
+    "alternatives:subCritA": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "alternatives:subCritB": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "alternatives:critB": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    "alternatives:critC": [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ]
+  }
+}
+```
+
+### Supported Methods
+There are a wide variety of methods available for calculating the priorities
+from preference matrices. This library currently supports the following
+methods:
+
+- Approximate (`approximate`)
+- Geometric (`geometric`)
+- Eigenvalue (`eigenvalue`)
+
+### Fields in the model
+
+| Field                    | Type     | Description |
+|--------------------------|----------|-------------|
+| **`name`**               | `string` | Name of the model. It is used when the library is called from the command line and ignored when used as a python library. Defaults to the filename in the command line mode. |
+| **`method`**             | `string` | The method/algorithm used to calculate the priority vectors from the preference matrices. It should be one of the supported methods. `required`  |
+| **`criteria`**           | `array`  | An array of strings containing the names of all the top level criteria. All the names should be `unique`. `required`  |
+| **`subCriteria`**        | `object` | It contains the sub-criteria definitions with criterion as the key and an array of strings as the sub-criteria. |
+| **`alternatives`**       | `array`  | An array of strings containing the names of all the alternatives. All the strings should be `unique`. `required`  |
+| **`preferenceMatrices`** | `object` | An object with key of the form `criteria` or `subCriteria:<criteriaName>` or `alternative:<criteriaName>` and the value is a 2D square matrix with integer elements. `required`|
+
+In the sample model above, due to the design of the model and hierarchy,
+`critA` has two sub-criteria. Hence, we need to provide a preference matrix for
+the sub-criteria of `critA`, named `subCriteria:critA`, and two `alternative`
+preferences matrices with the name `alternatives:subCritA` and
+`alternatives:subCritB`. All the other criteria have corresponding preference
+matrices.
 
 ## Maintainer
 - Abhinav Mishra [@mishrabhinav](https://github.com/mishrabhinav)
