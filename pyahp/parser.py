@@ -11,7 +11,7 @@ from pyahp.errors import *
 from pyahp.hierarchy import AHPModel
 from pyahp.methods import *
 
-methods = ('approximate', 'eigenvalue', 'geometric')
+methods = ('approximate', 'eigenvalue', 'geometric', 'power')
 
 
 def _type(val):
