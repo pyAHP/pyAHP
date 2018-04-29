@@ -1,5 +1,5 @@
 {
-  "name": "Television Model",
+  "name": "YetTelevision Model",
   "method": "power",
   "criteria": ["cost", "efficiency", "size", "resolution", "rating"],
   "subCriteria": {},
