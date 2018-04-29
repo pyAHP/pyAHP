@@ -6,6 +6,8 @@ This module contains the common functions and methods used by other modules in t
 
 import numpy as np
 
+from pyahp.errors import AHPPreferenceMatrixConversionError
+
 
 def normalize_priorities(criteria_pr, global_pr):
     """Normalize the priorities received from the lower layer.
@@ -49,7 +51,7 @@ def to_reciprocal_matrix(A):
                 if A[i, j] != 0:
                     A[j, i] = 1/A[i, j]
                 else:
-                    raise ValueError('There are so many zeros! I am unable to convert %s[%d,%d] to a vaild value!'%(A.__name__, i, j))
+                    raise AHPPreferenceMatrixConversionError(pm=A, loc=(i, j))
     return A
 
 
