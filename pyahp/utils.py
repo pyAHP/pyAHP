@@ -40,15 +40,16 @@ def to_reciprocal_matrix(A):
     for i in range(m):
         A[i, i] = 1
         for j in range(n):
-            if j != i and A[i, j] == 0:
-                if A[j, i] !=0:
-                    A[i, j] = 1/A[j, i]
+            if j == i or A[i, j] != 0: #filt this case
+                continue
+            if A[j, i] !=0:
+                A[i, j] = 1/A[j, i]
+            else:
+                A[i, j] = np.mean([A[i, k] * A[k, j] for k in range(m) if A[i, k] !=0 and A[k, j] !=0])
+                if A[i, j] != 0:
+                    A[j, i] = 1/A[i, j]
                 else:
-                    A[i, j] = np.mean([A[i, k] * A[k, j] for k in range(m) if A[i, k] !=0 and A[k, j] !=0])
-                    if A[i, j] != 0:
-                        A[j, i] = 1/A[i, j]
-                    else:
-                        raise ValueError('There are so many zeros! I am not able to convert %s[%d,%d] to a vaild value!'%(A.__name__, i, j))
+                    raise ValueError('There are so many zeros! I am unable to convert %s[%d,%d] to a vaild value!'%(A.__name__, i, j))
     return A
 
 
