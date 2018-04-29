@@ -40,7 +40,7 @@ def to_reciprocal_matrix(A):
     for i in range(m):
         A[i, i] = 1
         for j in range(n):
-            if j == i or A[i, j] != 0: #filt this case
+            if j == i or A[i, j] != 0: #filter this case
                 continue
             if A[j, i] !=0:
                 A[i, j] = 1/A[j, i]
