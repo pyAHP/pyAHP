@@ -80,11 +80,11 @@ class AHPMissingPreferenceMatrixError(AHPModelError):
 
 
 class AHPPreferenceMatrixConversionError(AHPModelError):
-        """Error for cases when it is unable to convert a matrix to a reciprocal one."""
+    """Error for cases when it is unable to convert a matrix to a reciprocal one."""
     def __init__(self, pm, loc):
         self.pm = pm
         self.loc = loc
 
     def __str__(self):
-        return '''Preference matrix {0} is unable to be convert a reciprocal one.\n
-        Give a valid value to the element at ({1[0]}, {1[1]}).'''.format(self.pm, self.loc)
+        return 'Preference matrix {0} is unable to be convert a reciprocal one.\n \
+        Give a valid value to the element at ({1[0]}, {1[1]}).'.format(self.pm, self.loc)
