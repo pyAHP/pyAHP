@@ -38,33 +38,34 @@ def to_reciprocal_matrix(A):
     A = A.astype(np.float64)
     m, n = A.shape
     for i in range(m):
+        A[i, i] = 1
         for j in range(n):
-            if j == i:
-                A[i, i] = 1
-            elif A[i, j]==0:
+            if j != i and A[i, j] == 0:
                 if A[j, i] !=0:
                     A[i, j] = 1/A[j, i]
                 else:
-                    for k in range(m):
-                        if A[i, k] !=0 and A[k, j] !=0:
-                            A[i, j] = A[i, k] * A[k, j]
-                            break
+                    A[i, j] = np.mean([A[i, k] * A[k, j] for k in range(m) if A[i, k] !=0 and A[k, j] !=0])
+                    if A[i, j] != 0:
+                        A[j, i] = 1/A[i, j]
                     else:
-                        raise ValueError('There are so many zeros! I am not able to convert A[%d,%d] to a vaild value!'%(i,j))
+                        raise ValueError('There are so many zeros! I am not able to convert %s[%d,%d] to a vaild value!'%(A.__name__, i, j))
     return A
 
 
 def is_reciprocal(A):
     # return True if A is a reciprocal matrix
+    # deprecated
     m, n = A.shape
     for i in range(m):
+        if A[i, i]**2 != 1:
+            return False
         for j in range(i):
             if A[i, j] * A[j,i] != 1:
                 return False
     return True
 
 def is_positive_reciprocal(A):
-    # return True if A is a reciprocal matrix
+    # return True if A is a positive reciprocal matrix
     m, n = A.shape
     for i in range(m):
         if A[i, i] != 1:
