@@ -10,7 +10,7 @@ import numpy.linalg as LA
 from pyahp.methods import Method
 
 
-def eig(A, initvec=None, tol=0.0001, iteration=15):
+def eig(A, initvec=None, tol=0.0001, iteration=16):
     '''Calculate the dominant eigenvalue of A with power method.
 
     The Power Method is a classical method to calculate the single eigenvalue with maximal abstract value, 
@@ -26,7 +26,7 @@ def eig(A, initvec=None, tol=0.0001, iteration=15):
     Keyword Arguments:
         initvec {1D-array} -- [initial vector] (default: {None})
         tol {number} -- [tolerance] (default: {0.0001})
-        iteration {number} -- [iteration] (default: {10})
+        iteration {number} -- [iteration] (default: {16})
     
     Returns:
         dominant eigenvalue, eigenvector {1D-array}
