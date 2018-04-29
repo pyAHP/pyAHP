@@ -7,7 +7,7 @@ This module contains the class definition for the AHP Criteria Node in the hiera
 import numpy as np
 
 from pyahp.methods import EigenvalueMethod
-from pyahp.utils import normalize_priorities
+from pyahp.utils import normalize_priorities, to_reciprocal_matrix
 
 
 class AHPCriterion:
@@ -44,6 +44,7 @@ class AHPCriterion:
             Priorities at current level, normalized if an internal node.
         """
         p_m = np.array(self.preference_matrices[self.p_m_key])
+        p_m = to_reciprocal_matrix(p_m)
         sub_crit_pr = self.solver.estimate(p_m)
 
         if self.leaf:

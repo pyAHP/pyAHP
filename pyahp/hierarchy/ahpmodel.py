@@ -8,7 +8,7 @@ import numpy as np
 
 from pyahp.hierarchy import AHPCriterion
 from pyahp.methods import EigenvalueMethod
-from pyahp.utils import normalize_priorities
+from pyahp.utils import normalize_priorities, to_reciprocal_matrix
 
 
 class AHPModel:
@@ -37,6 +37,7 @@ class AHPModel:
             Global priorities of the alternatives in the model, rounded to `decimals` positions if `round_results=True`.
         """
         crit_pm = np.array(self.preference_matrices['criteria'])
+        crit_pm = to_reciprocal_matrix(crit_pm)
         crit_pr = self.solver.estimate(crit_pm)
 
         crit_attr_pr = [criterion.get_priorities() for criterion in self.criteria]
