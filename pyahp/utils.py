@@ -53,27 +53,3 @@ def to_reciprocal_matrix(A):
                 else:
                     raise AHPPreferenceMatrixConversionError(pm=A, loc=(i, j))
     return A
-
-
-def is_reciprocal(A):
-    # return True if A is a reciprocal matrix
-    # deprecated
-    m, n = A.shape
-    for i in range(m):
-        if A[i, i]**2 != 1:
-            return False
-        for j in range(i):
-            if A[i, j] * A[j,i] != 1:
-                return False
-    return True
-
-def is_positive_reciprocal(A):
-    # return True if A is a positive reciprocal matrix
-    m, n = A.shape
-    for i in range(m):
-        if A[i, i] != 1:
-            return False
-        for j in range(i):
-            if A[i,j]>0 and A[i, j] * A[j,i] != 1:
-                return False
-    return True
