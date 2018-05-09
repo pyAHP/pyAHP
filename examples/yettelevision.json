@@ -1,0 +1,46 @@
+{
+  "name": "YetTelevision Model",
+  "method": "power",
+  "criteria": ["cost", "efficiency", "size", "resolution", "rating"],
+  "subCriteria": {},
+  "alternatives": ["Samsung", "Sony", "Panasonic", "Toshiba"],
+  "preferenceMatrices": {
+    "criteria": [
+      [1, 1, 3, 0, 2],
+      [1, 1, 0, 2, 0],
+      [0, 3, 1, 0, 5],
+      [4, 0.5, 3, 1, 5],
+      [0.5, 5, 0, 0, 1]
+    ],
+    "alternatives:cost": [
+      [1, 0.333, 0, 5],
+      [3, 1, 0, 7],
+      [5, 3, 1, 8],
+      [0, 0, 0, 1]
+    ],
+    "alternatives:efficiency": [
+      [1, 1, 0, 0],
+      [1, 1, 0, 0],
+      [5, 5, 1, 1],
+      [5, 5, 1, 1]
+    ],
+    "alternatives:size": [
+      [1, 5, 5, 0],
+      [0, 1, 1, 0],
+      [0, 1, 1, 0],
+      [4, 7, 7, 1]
+    ],
+    "alternatives:resolution": [
+      [1, 9, 9, 1],
+      [0.11, 1, 1, 0.11],
+      [0.11, 1, 1, 0.11],
+      [1, 9, 9, 1]
+    ],
+    "alternatives:rating": [
+      [1, 0, 0, 0],
+      [3, 1, 0, 0],
+      [7, 5, 1, 3],
+      [5, 3, 0, 1]
+    ]
+  }
+}

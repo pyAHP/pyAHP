@@ -11,8 +11,6 @@ from pyahp.errors import *
 from pyahp.hierarchy import AHPModel
 from pyahp.methods import *
 
-methods = ('approximate', 'eigenvalue', 'geometric')
-
 
 def _type(val):
     return val.__class__.__name__
@@ -68,8 +66,8 @@ def validate_model(model):
     if not isinstance(method, str):
         raise AHPTypeMismatchError('method', 'str', _type(method))
 
-    if method not in methods:
-        raise AHPMethodUnsupportedError((', '.join(methods)), method)
+    if method not in availableMethods:
+        raise AHPMethodUnsupportedError((', '.join(availableMethods)), method)
 
     _check_ahp_list('criteria', model['criteria'])
     _check_ahp_list('alternatives', model['alternatives'])
@@ -115,7 +113,7 @@ def parse(model):
     """
     validate_model(model)
 
-    method_name = model['method'].capitalize() + 'Method'
+    method_name = model['method'].capitalize() + 'Method' # eigenvalue -> EigenvalueMethod
     solver = globals()[method_name]
 
     return AHPModel(model, solver)
